@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var tasks: [Main.Task] = [Main.Task(text: "1st task"), Main.Task(text: "2nd task")]
+    @State private var tasks: [Main.Task] = []
     @State private var text: String = ""
+    @State private var currentEditTask: Main.Task?
     
     var body: some View {
         NavigationView {
@@ -17,7 +18,12 @@ struct ContentView: View {
                 TextField("Task", text: $text) { isEdit in
                     print(isEdit)
                 } onCommit: {
-                    tasks.append(Main.Task(text: text))
+                    if let curTask = currentEditTask {
+                        let oldTaskID: Int = tasks.firstIndex(where: { $0.id == curTask.id }) ?? 0
+                        tasks[oldTaskID] = Main.Task(text: "\(oldTaskID + 1)) \(text)")
+                    } else {
+                        tasks.append(Main.Task(text: "\(tasks.count + 1)) \(text)"))
+                    }
                     text = ""
                 }
                 .padding(.horizontal)
@@ -25,8 +31,13 @@ struct ContentView: View {
                 List {
                     ForEach(tasks, id: \.self) { task in
                         Text(task.text)
+                            .onTapGesture {
+                                text = task.text
+                                currentEditTask = task
+                            }
                     }
                     .onDelete(perform: delete)
+                    .onMove(perform: move)
                 }
             }
             .toolbar {
