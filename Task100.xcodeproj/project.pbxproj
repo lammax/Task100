@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B42085FE26EFE29B000B70B0 /* Task100App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42085FD26EFE29B000B70B0 /* Task100App.swift */; };
-		B420860026EFE29B000B70B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42085FF26EFE29B000B70B0 /* ContentView.swift */; };
+		B420860026EFE29B000B70B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42085FF26EFE29B000B70B0 /* MainView.swift */; };
 		B420860226EFE29D000B70B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B420860126EFE29D000B70B0 /* Assets.xcassets */; };
 		B420860526EFE29D000B70B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B420860426EFE29D000B70B0 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -16,7 +16,7 @@
 /* Begin PBXFileReference section */
 		B42085FA26EFE29B000B70B0 /* Task100.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task100.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42085FD26EFE29B000B70B0 /* Task100App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task100App.swift; sourceTree = "<group>"; };
-		B42085FF26EFE29B000B70B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B42085FF26EFE29B000B70B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B420860126EFE29D000B70B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B420860426EFE29D000B70B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B420860626EFE29D000B70B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +36,7 @@
 		B42085F126EFE29B000B70B0 = {
 			isa = PBXGroup;
 			children = (
+				B420860C26EFE2AF000B70B0 /* Lib */,
 				B42085FC26EFE29B000B70B0 /* Task100 */,
 				B42085FB26EFE29B000B70B0 /* Products */,
 			);
@@ -52,8 +53,8 @@
 		B42085FC26EFE29B000B70B0 /* Task100 */ = {
 			isa = PBXGroup;
 			children = (
+				B420860D26EFE2B9000B70B0 /* Screens */,
 				B42085FD26EFE29B000B70B0 /* Task100App.swift */,
-				B42085FF26EFE29B000B70B0 /* ContentView.swift */,
 				B420860126EFE29D000B70B0 /* Assets.xcassets */,
 				B420860626EFE29D000B70B0 /* Info.plist */,
 				B420860326EFE29D000B70B0 /* Preview Content */,
@@ -67,6 +68,29 @@
 				B420860426EFE29D000B70B0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B420860C26EFE2AF000B70B0 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		B420860D26EFE2B9000B70B0 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B420860E26EFE2C3000B70B0 /* Main */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		B420860E26EFE2C3000B70B0 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B42085FF26EFE29B000B70B0 /* MainView.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B420860026EFE29B000B70B0 /* ContentView.swift in Sources */,
+				B420860026EFE29B000B70B0 /* MainView.swift in Sources */,
 				B42085FE26EFE29B000B70B0 /* Task100App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
