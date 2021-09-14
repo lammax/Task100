@@ -11,6 +11,9 @@ struct ContentView: View {
     @State private var tasks: [Main.Task] = []
     @State private var text: String = ""
     @State private var currentEditTask: Main.Task?
+    @State private var editMode = EditMode.inactive
+    
+    let interactor = MainInteractor()
     
     var body: some View {
         NavigationView {
@@ -20,9 +23,9 @@ struct ContentView: View {
                 } onCommit: {
                     if let curTask = currentEditTask {
                         let oldTaskID: Int = tasks.firstIndex(where: { $0.id == curTask.id }) ?? 0
-                        tasks[oldTaskID] = Main.Task(text: "\(oldTaskID + 1)) \(text)")
+                        tasks[oldTaskID] = Main.Task(id: oldTaskID, text: "\(oldTaskID + 1)) \(text)")
                     } else {
-                        tasks.append(Main.Task(text: "\(tasks.count + 1)) \(text)"))
+                        tasks.append(Main.Task(id: tasks.count, text: "\(tasks.count + 1)) \(text)"))
                     }
                     text = ""
                 }
@@ -39,12 +42,23 @@ struct ContentView: View {
                     .onDelete(perform: delete)
                     .onMove(perform: move)
                 }
+                
             }
-            .toolbar {
-                EditButton()
-            }
+            .environment(\.editMode, $editMode)
+            .navigationBarItems(leading: EditButton(), trailing: saveButton)
             .navigationTitle("Tasks")
         }
+        .onAppear {
+            tasks = interactor.getTaskList()
+        }
+    }
+    
+    private var saveButton: some View {
+        return AnyView(Button(action: onSave) { Image(systemName: "square.and.arrow.down") })
+    }
+    
+    func onSave() {
+        interactor.save(list: tasks)
     }
     
     func delete(at offsets: IndexSet) {

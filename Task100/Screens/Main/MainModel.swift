@@ -9,8 +9,8 @@ import Foundation
 
 enum Main {
     
-    struct Task: Identifiable, Hashable {
-        let id = UUID()
+    struct Task: Identifiable, Hashable, Codable {
+        let id: Int
         let text: String
     }
     
