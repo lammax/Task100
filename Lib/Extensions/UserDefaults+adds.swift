@@ -12,9 +12,9 @@ enum UserDefaultsKeys: String {
 }
 
 extension UserDefaults {
-    static var taskList: [Main.Task] {
+    static var taskList: Main.TaskList {
         get {
-            return self.getObject(for: UserDefaultsKeys.taskList.rawValue, castTo: [Main.Task].self) ?? []
+            return self.getObject(for: UserDefaultsKeys.taskList.rawValue, castTo: Main.TaskList.self) ?? Main.TaskList.defaultList
         }
         
         set(newValue) {

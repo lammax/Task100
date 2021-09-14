@@ -17,6 +17,8 @@ enum Main {
     struct TaskList: Codable {
         let title: String
         let tasks: [Task]
+        
+        static let defaultList = TaskList(title: "", tasks: [])
     }
 
 }

@@ -9,11 +9,11 @@ import Foundation
 
 class MainInteractor {
     
-    func save(list: [Main.Task]) {
+    func save(list: Main.TaskList) {
         UserDefaults.taskList = list
     }
     
-    func getTaskList() -> [Main.Task] {
+    func getTaskList() -> Main.TaskList {
         UserDefaults.taskList
     }
 }

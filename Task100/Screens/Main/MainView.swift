@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var tasks: [Main.Task] = []
+    @State private var taskList: Main.TaskList = Main.TaskList(title: "Люблю делать", tasks: [])
     @State private var text: String = ""
     @State private var currentEditTask: Main.Task?
     @State private var editMode = EditMode.inactive
@@ -18,21 +18,23 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Task", text: $text) { _ in
+                TextField("Enter your task", text: $text) { _ in
                 } onCommit: {
+                    var tasks = taskList.tasks
                     if let curTask = currentEditTask {
-                        let oldTaskID: Int = tasks.firstIndex(where: { $0.id == curTask.id }) ?? 0
+                        let oldTaskID: Int = taskList.tasks.firstIndex(where: { $0.id == curTask.id }) ?? 0
                         tasks[oldTaskID] = Main.Task(id: oldTaskID, text: "\(oldTaskID + 1)) \(text)")
                     } else {
                         tasks.append(Main.Task(id: tasks.count, text: "\(tasks.count + 1)) \(text)"))
                     }
+                    taskList = Main.TaskList(title: taskList.title, tasks: tasks)
                     onSave()
                     text = ""
                 }
                 .padding(.horizontal)
 
                 List {
-                    ForEach(tasks, id: \.self) { task in
+                    ForEach(taskList.tasks, id: \.self) { task in
                         Text(task.text)
                             .onTapGesture {
                                 text = task.text
@@ -46,10 +48,11 @@ struct ContentView: View {
             }
             .environment(\.editMode, $editMode)
             .navigationBarItems(leading: editButton, trailing: saveButton)
-            .navigationTitle("Tasks")
+            .navigationTitle(taskList.title)
         }
         .onAppear {
-            tasks = interactor.getTaskList()
+            taskList = interactor.getTaskList()
+            taskList = Main.TaskList(title: taskList.title.isEmpty ? "Люблю делать2" : taskList.title, tasks: taskList.tasks)
         }
     }
     
@@ -70,16 +73,20 @@ struct ContentView: View {
     }
     
     func onSave() {
-        interactor.save(list: tasks)
+        interactor.save(list: taskList)
     }
     
     func delete(at offsets: IndexSet) {
+        var tasks = taskList.tasks
         tasks.remove(atOffsets: offsets)
+        taskList = Main.TaskList(title: taskList.title, tasks: tasks)
         onSave()
     }
     
     func move(from source: IndexSet, to destination: Int) {
+        var tasks = taskList.tasks
         tasks.move(fromOffsets: source, toOffset: destination)
+        taskList = Main.TaskList(title: taskList.title, tasks: tasks)
         onSave()
     }
 }
