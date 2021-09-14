@@ -14,4 +14,9 @@ enum Main {
         let text: String
     }
     
+    struct TaskList: Codable {
+        let title: String
+        let tasks: [Task]
+    }
+
 }

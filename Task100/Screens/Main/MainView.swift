@@ -18,8 +18,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Task", text: $text) { isEdit in
-                    print(isEdit)
+                TextField("Task", text: $text) { _ in
                 } onCommit: {
                     if let curTask = currentEditTask {
                         let oldTaskID: Int = tasks.firstIndex(where: { $0.id == curTask.id }) ?? 0
@@ -27,6 +26,7 @@ struct ContentView: View {
                     } else {
                         tasks.append(Main.Task(id: tasks.count, text: "\(tasks.count + 1)) \(text)"))
                     }
+                    onSave()
                     text = ""
                 }
                 .padding(.horizontal)
@@ -45,7 +45,7 @@ struct ContentView: View {
                 
             }
             .environment(\.editMode, $editMode)
-            .navigationBarItems(leading: EditButton(), trailing: saveButton)
+            .navigationBarItems(leading: editButton, trailing: saveButton)
             .navigationTitle("Tasks")
         }
         .onAppear {
@@ -53,8 +53,20 @@ struct ContentView: View {
         }
     }
     
+    private var editButton: some View {
+        return AnyView(Button(action: onEdit) { Image(systemName: "pencil").padding(.all, 5).background(Color.yellow) })
+    }
+
     private var saveButton: some View {
-        return AnyView(Button(action: onSave) { Image(systemName: "square.and.arrow.down") })
+        return AnyView(Button(action: onSave) { Image(systemName: "square.and.arrow.down").padding(.all, 5).background(Color.yellow) })
+    }
+    
+    func onEdit() {
+        if editMode == .active {
+            editMode = .inactive
+        } else {
+            editMode = .active
+        }
     }
     
     func onSave() {
@@ -63,10 +75,12 @@ struct ContentView: View {
     
     func delete(at offsets: IndexSet) {
         tasks.remove(atOffsets: offsets)
+        onSave()
     }
     
     func move(from source: IndexSet, to destination: Int) {
         tasks.move(fromOffsets: source, toOffset: destination)
+        onSave()
     }
 }
 

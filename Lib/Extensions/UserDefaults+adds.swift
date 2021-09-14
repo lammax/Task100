@@ -14,26 +14,26 @@ enum UserDefaultsKeys: String {
 extension UserDefaults {
     static var taskList: [Main.Task] {
         get {
-            return (self.standard.object(forKey: UserDefaultsKeys.taskList.rawValue) as? [Main.Task]) ?? []
+            return self.getObject(for: UserDefaultsKeys.taskList.rawValue, castTo: [Main.Task].self) ?? []
         }
         
         set(newValue) {
-            self.standard.set(newValue, forKey: UserDefaultsKeys.taskList.rawValue)
+            self.setObject(newValue, for: UserDefaultsKeys.taskList.rawValue)
         }
     }
     
-    static func setObject<Object>(_ object: Object) where Object: Encodable {
+    static func setObject<Object>(_ object: Object, for key: String) where Object: Encodable {
             let encoder = JSONEncoder()
             do {
                 let data = try encoder.encode(object)
-                self.standard.set(data, forKey: UserDefaultsKeys.taskList.rawValue)
+                self.standard.set(data, forKey: key)
             } catch {
                 print(error)
             }
         }
         
-    static func getObject<Object>(castTo type: Object.Type) -> Object? where Object: Decodable {
-        guard let data = self.standard.data(forKey: UserDefaultsKeys.taskList.rawValue) else { print("UD: error data get"); return nil }
+    static func getObject<Object>(for key: String, castTo type: Object.Type) -> Object? where Object: Decodable {
+        guard let data = self.standard.data(forKey: key) else { print("UD: error data get"); return nil }
         let decoder = JSONDecoder()
         do {
             let object = try decoder.decode(type, from: data)

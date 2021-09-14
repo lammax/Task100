@@ -10,10 +10,10 @@ import Foundation
 class MainInteractor {
     
     func save(list: [Main.Task]) {
-        UserDefaults.setObject(list)
+        UserDefaults.taskList = list
     }
     
     func getTaskList() -> [Main.Task] {
-        UserDefaults.getObject(castTo: [Main.Task].self) ?? []
+        UserDefaults.taskList
     }
 }
