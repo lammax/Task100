@@ -136,6 +136,10 @@ extension RootCoordinator {
         taskList = Root.TaskList(title: taskList.title, tasks: tasks)
         saveTaskList()
     }
+    
+    func edit(task: Root.Task) {
+        currentEditTask = task
+    }
 
     func updateMenuList(with text: String) {
         if let menuItem = currentMenuItem {
@@ -147,7 +151,7 @@ extension RootCoordinator {
         }
         saveMenuList()
     }
-
+    
     func deleteMenuItem(at offsets: IndexSet) {
         menuList.remove(atOffsets: offsets)
         saveMenuList()
@@ -166,7 +170,4 @@ extension RootCoordinator {
         currentMenuItem = menuItem
     }
     
-    func edit(task: Root.Task) {
-        currentEditTask = task
-    }
 }
