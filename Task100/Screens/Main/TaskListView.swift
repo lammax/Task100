@@ -29,8 +29,10 @@ struct TaskListView: View {
                     ForEach(coordinator.taskList.tasks, id: \.self) { task in
                         Text(task.text)
                             .onTapGesture {
-                                text = task.text
-                                coordinator.currentEditTask = task
+                                if editMode == .active {
+                                    text = task.text
+                                    coordinator.edit(task: task)
+                                }
                             }
                     }
                     .onDelete(perform: coordinator.deleteTask)

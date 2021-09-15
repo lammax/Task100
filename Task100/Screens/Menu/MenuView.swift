@@ -29,7 +29,12 @@ struct MenuView: View {
                     ForEach(coordinator.menuList, id: \.self) { listName in
                         Text(listName)
                             .onTapGesture {
-                                coordinator.choose(menuItem: listName)
+                                if editMode == .active {
+                                    text = listName
+                                    coordinator.edit(menuItem: listName)
+                                } else {
+                                    coordinator.choose(menuItem: listName)
+                                }
                             }
                     }
                     .onDelete(perform: coordinator.deleteMenuItem)

@@ -159,7 +159,14 @@ extension RootCoordinator {
     }
     
     func choose(menuItem: String) {
-        currentMenuItem = menuItem
         showTaskList(for: menuItem)
+    }
+
+    func edit(menuItem: String) {
+        currentMenuItem = menuItem
+    }
+    
+    func edit(task: Root.Task) {
+        currentEditTask = task
     }
 }
