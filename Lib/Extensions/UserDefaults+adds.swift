@@ -9,12 +9,24 @@ import Foundation
 
 enum UserDefaultsKeys: String {
     case taskList
+    case menuList
 }
 
 extension UserDefaults {
-    static var taskList: Main.TaskList {
+    
+    static var menuList: [String] {
         get {
-            return self.getObject(for: UserDefaultsKeys.taskList.rawValue, castTo: Main.TaskList.self) ?? Main.TaskList.defaultList
+            return (standard.array(forKey: UserDefaultsKeys.menuList.rawValue) as? [String]) ?? []
+        }
+        
+        set(newValue) {
+            standard.setValue(newValue, forKey: UserDefaultsKeys.menuList.rawValue)
+        }
+    }
+
+    static var taskList: Root.TaskList {
+        get {
+            return self.getObject(for: UserDefaultsKeys.taskList.rawValue, castTo: Root.TaskList.self) ?? Root.TaskList.defaultList
         }
         
         set(newValue) {

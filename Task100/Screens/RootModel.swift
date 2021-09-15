@@ -1,13 +1,18 @@
 //
-//  MainModel.swift
+//  RootModel.swift
 //  Task100
 //
-//  Created by Максим Ламанский on 13.09.2021.
+//  Created by Максим Ламанский on 15.09.2021.
 //
 
 import Foundation
 
-enum Main {
+enum Root {
+    
+    enum Flow {
+        case menu
+        case taskList
+    }
     
     struct Task: Identifiable, Hashable, Codable {
         let id: Int
@@ -20,5 +25,9 @@ enum Main {
         
         static let defaultList = TaskList(title: "", tasks: [])
     }
-
+    
+    struct List: Codable {
+        let items: [TaskList]
+    }
+    
 }
