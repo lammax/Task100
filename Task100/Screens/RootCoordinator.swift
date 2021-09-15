@@ -15,7 +15,7 @@ class RootCoordinator: ObservableObject, CoordinatorSwiftUI {
     @Published var menuList: [String] = []
     
     var currentEditTask: Root.Task?
-    var currentEditMenuItem: String?
+    var currentMenuItem: String?
 
     internal var cancellables: [AnyCancellable] = []
 
@@ -39,7 +39,6 @@ class RootCoordinator: ObservableObject, CoordinatorSwiftUI {
     }
     
     func start() {
-        loadMenuList()
         showMainMenu()
     }
     
@@ -52,10 +51,6 @@ class RootCoordinator: ObservableObject, CoordinatorSwiftUI {
             self2?.navCoordinator.currentCoordinator?.back(completion: nil)
         }
         completion?()
-    }
-    
-    private func loadMenuList() {
-        menuList = UserDefaults.menuList
     }
     
     private func showScene(for flow: Root.Flow) {
@@ -95,7 +90,7 @@ extension RootCoordinator: Bindable {
 extension RootCoordinator {
     
     func getTaskList(for key: String) -> Root.TaskList {
-        UserDefaults.getObject(for: key, castTo: Root.TaskList.self) ?? Root.TaskList .defaultList
+        UserDefaults.getObject(for: key, castTo: Root.TaskList.self) ?? Root.TaskList(title: key, tasks: [])
     }
 
     func getMenuList() -> [String] {
@@ -128,17 +123,6 @@ extension RootCoordinator {
         saveTaskList()
     }
 
-    func updateMenuList(with item: String) {
-        if let menuItem = currentEditMenuItem {
-            let oldMenuItemID: Int = menuList.firstIndex(where: { $0 == menuItem }) ?? 0
-            menuList[oldMenuItemID] = item
-            currentEditMenuItem = nil
-        } else {
-            menuList.append(item)
-        }
-        saveMenuList()
-    }
-
     func deleteTask(at offsets: IndexSet) {
         var tasks = taskList.tasks
         tasks.remove(atOffsets: offsets)
@@ -153,4 +137,29 @@ extension RootCoordinator {
         saveTaskList()
     }
 
+    func updateMenuList(with text: String) {
+        if let menuItem = currentMenuItem {
+            let oldMenuItemID: Int = menuList.firstIndex(where: { $0 == menuItem }) ?? 0
+            menuList[oldMenuItemID] = text
+            currentMenuItem = nil
+        } else {
+            menuList.append(text)
+        }
+        saveMenuList()
+    }
+
+    func deleteMenuItem(at offsets: IndexSet) {
+        menuList.remove(atOffsets: offsets)
+        saveMenuList()
+    }
+
+    func moveMenuItem(from source: IndexSet, to destination: Int) {
+        menuList.move(fromOffsets: source, toOffset: destination)
+        saveMenuList()
+    }
+    
+    func choose(menuItem: String) {
+        currentMenuItem = menuItem
+        showTaskList(for: menuItem)
+    }
 }

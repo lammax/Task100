@@ -40,7 +40,7 @@ struct TaskListView: View {
             }
             .environment(\.editMode, $editMode)
             .navigationBarItems(leading: editButton, trailing: saveButton)
-            .navigationTitle(coordinator.taskList.title)
+            .navigationTitle(coordinator.taskList.title + " (\(coordinator.taskList.tasks.count))")
         }
     }
     
@@ -62,12 +62,13 @@ struct TaskListView: View {
     
     func onSave() {
         coordinator.saveTaskList()
+        coordinator.back()
     }
     
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct TaskListView_Previews: PreviewProvider {
     static var previews: some View {
         TaskListView()
     }

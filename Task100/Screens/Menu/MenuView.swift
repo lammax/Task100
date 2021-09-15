@@ -26,21 +26,20 @@ struct MenuView: View {
                 .padding(.horizontal)
 
                 List {
-                    ForEach(coordinator.taskList.tasks, id: \.self) { task in
-                        Text(task.text)
+                    ForEach(coordinator.menuList, id: \.self) { listName in
+                        Text(listName)
                             .onTapGesture {
-                                text = task.text
-                                coordinator.currentEditTask = task
+                                coordinator.choose(menuItem: listName)
                             }
                     }
-                    .onDelete(perform: coordinator.deleteTask)
-                    .onMove(perform: coordinator.moveTask)
+                    .onDelete(perform: coordinator.deleteMenuItem)
+                    .onMove(perform: coordinator.moveMenuItem)
                 }
                 
             }
             .environment(\.editMode, $editMode)
             .navigationBarItems(leading: editButton, trailing: saveButton)
-            .navigationTitle(coordinator.taskList.title)
+            .navigationTitle("Списки 100")
         }
     }
     
@@ -61,13 +60,13 @@ struct MenuView: View {
     }
     
     func onSave() {
-        coordinator.saveTaskList()
+        coordinator.saveMenuList()
     }
     
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
         TaskListView()
     }

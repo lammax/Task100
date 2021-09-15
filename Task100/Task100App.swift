@@ -11,7 +11,7 @@ import SwiftUI
 struct Task100App: App {
     var body: some Scene {
         WindowGroup {
-            TaskListView()
+            RootView().environmentObject(RootCoordinator(navigator: NavigationControllerSwiftUI()))
         }
     }
 }
